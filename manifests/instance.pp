@@ -18,7 +18,7 @@ define keepalived::instance (
 
   include keepalived::variables
 
-  Keepalived::Vrrp_script[ $track_script ] -> Keepalived::Instance[ $name ]
+  Keepalived::Vrrp_script[ regsubst($track_script, '^(.+) weight .*', '\1') ] -> Keepalived::Instance[ $name ]
 
   concat::fragment { "keepalived_${name}":
     target  => $keepalived::variables::keepalived_conf,
