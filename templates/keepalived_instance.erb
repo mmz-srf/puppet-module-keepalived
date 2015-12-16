@@ -36,6 +36,9 @@ vrrp_instance <%= @name %> {
 <% end -%>
   }
 <% end -%>
+<% if @mcast_src_ip then -%>
+  mcast_src_ip <%= @mcast_src_ip %>
+<% end -%>
 <% if @auth_type and @auth_pass then -%>
   authentication {
     auth_type <%= @auth_type %>
