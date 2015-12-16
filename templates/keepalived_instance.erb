@@ -21,6 +21,9 @@ vrrp_instance <%= @name %> {
   <% end %>
   <% end %>
   }
+  <% if @mcast_src_ip then -%>
+  mcast_src_ip <%= @mcast_src_ip %>
+  <% end -%>
   <% if @track_script.length > 0 then %>
   track_script {
   <% @track_script.each do |script| -%>

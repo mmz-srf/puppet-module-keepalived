@@ -4,6 +4,7 @@ define keepalived::instance (
   $state,
   $priority,
   $track_script      = [],
+  $mcast_src_ip      = undef,
   $notify            = undef,
   $notify_master     = undef,
   $notify_backup     = undef,
