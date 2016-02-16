@@ -43,8 +43,8 @@ vrrp_instance <%= @name %> {
   }
 <% end -%>
 
-<% if @notify then -%>
-  notify <%= @notify %>
+<% if @notify_script then -%>
+  notify <%= @notify_script %>
 <% end -%>
 <% if @notify_master then -%>
   notify_master <%= @notify_master %>
