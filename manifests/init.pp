@@ -40,18 +40,20 @@
 # Copyright 2012 Bruno LEON, unless otherwise noted.
 #
 class keepalived (
-  $notification_email_to   = [ "root@${domain}" ],
-  $notification_email_from = "keepalived@${domain}",
+  $notification_email_to   = [ "root@${::domain}" ],
+  $notification_email_from = "keepalived@${::domain}",
   $smtp_server             = 'localhost',
   $smtp_connect_timeout    = '30',
   $router_id               = $::hostname,
   $static_ipaddress        = [],
 ) {
 
-  Class[ "${module_name}::install" ] -> Class[ "${module_name}::config" ] ~> Class[ "${module_name}::service" ]
+  Class[ "${module_name}::install" ] ->
+  Class[ "${module_name}::config" ] ~>
+  Class[ "${module_name}::service" ]
 
   include "${module_name}::variables"
-  class { "${module_name}::install": }
+  include "${module_name}::install"
   class { "${module_name}::config":
     notification_email_to   => $keepalived::notification_email_to,
     notification_email_from => $keepalived::notification_email_from,
@@ -60,5 +62,8 @@ class keepalived (
     router_id               => $keepalived::router_id,
     static_ipaddress        => $keepalived::static_ipaddress,
   }
-  class { "${module_name}::service": }
+  include "${module_name}::service"
+
+  $keepalived_instance = hiera('keepalived::instance', {} )
+  create_resources('keepalived::instance', $keepalived_instance )
 }
