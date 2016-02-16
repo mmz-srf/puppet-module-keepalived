@@ -52,6 +52,9 @@ vrrp_instance <%= @name %> {
 <% if @notify_backup then -%>
   notify_backup <%= @notify_backup %>
 <% end -%>
+<% if @notify_fault then -%>
+  notify_fault <%= @notify_fault %>
+<% end -%>
 
 <% if @smtp_alert then -%>smtp_alert<% end %>
 <% if @nopreempt then -%>nopreempt<% end %>
