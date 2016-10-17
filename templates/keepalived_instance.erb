@@ -1,3 +1,10 @@
+<% if @virtual_ips.is_a? Hash then
+  firstvip, label = @virtual_ips.first
+else
+  firstvip = @virtual_ips.uniq.first
+  label = nil
+end -%>
+
 vrrp_instance <%= @name %> {
   virtual_router_id <%= @virtual_router_id %>
 
@@ -11,16 +18,26 @@ vrrp_instance <%= @name %> {
   interface <%= @interface %>
 
   virtual_ipaddress {
-<% if @virtual_ips.is_a? Hash then -%>
-<% @virtual_ips.each do |vip, label| -%>
-    <%= vip -%> label <%= @interface -%>:<%= label %>
-  <% end %>
-  <% else %>
-  <% @virtual_ips.uniq.each do |vip| -%>
-    <%= vip %>
-<% end -%>
-<% end -%>
+    <%= firstvip %><% if label -%> label <%= @interface -%>:<%= label %> <% end %>
   }
+
+<% if @virtual_ips.count > 1 -%>
+  virtual_ipaddress_excluded {
+    <% if @virtual_ips.is_a? Hash then -%>
+      <% @virtual_ips.each do |vip, label| -%>
+        <% if vip != firstvip -%>
+          <%= vip -%> label <%= @interface -%>:<%= label %>
+        <% end -%>
+      <% end %>
+    <% else -%>
+      <% @virtual_ips.uniq.each do |vip| -%>
+        <% if vip != firstvip -%>
+          <%= vip %>
+        <% end -%>
+      <% end %>
+    <% end -%>
+  }
+<% end -%>
 
 <% if @virtual_routes.length > 0 then -%>
   virtual_routes {
