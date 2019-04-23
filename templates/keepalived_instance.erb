@@ -8,6 +8,10 @@ end -%>
 vrrp_instance <%= @name %> {
   virtual_router_id <%= @virtual_router_id %>
 
+  # https://www.keepalived.org/manpage.html
+  # Ignore VRRP interface faults (default unset)
+  dont_track_primary
+
   # Advert interval
   advert_int <%= @advert_int %>
 
