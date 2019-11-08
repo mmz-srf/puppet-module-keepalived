@@ -64,6 +64,6 @@ class keepalived (
   }
   include "${module_name}::service"
 
-  $keepalived_instance = hiera('keepalived::instance', {} )
+  $keepalived_instance = lookup('keepalived::instance', Hash, 'hash', {} )
   create_resources('keepalived::instance', $keepalived_instance )
 }
