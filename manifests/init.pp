@@ -40,8 +40,8 @@
 # Copyright 2012 Bruno LEON, unless otherwise noted.
 #
 class keepalived (
-  $notification_email_to   = [ "root@${::domain}" ],
-  $notification_email_from = "keepalived@${::domain}",
+  $notification_email_to   = [ "root@${::fqdn}" ],
+  $notification_email_from = "keepalived@${::fqdn}",
   $smtp_server             = 'localhost',
   $smtp_connect_timeout    = '30',
   $router_id               = $::hostname,
